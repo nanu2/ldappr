@@ -1,8 +1,7 @@
 Ldappr
 =======
 
-.. image:: https://badge.fury.io/py/ldappr.svg
-    :target: http://badge.fury.io/py/ldappr
+[![PyPI version](https://badge.fury.io/py/ldappr.svg)](http://badge.fury.io/py/ldappr)
 
 Ldappr is a wrapper around python-ldap, meant for quick and easy handling of 
 common administrative tasks concerning your LDAP compliant repository. It is
