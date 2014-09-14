@@ -6,7 +6,7 @@ Ldappr
 Ldappr is a wrapper around python-ldap, meant for quick and easy handling of 
 common administrative tasks concerning your LDAP compliant repository. It is
 particularly useful in small, one-time scripts to get things done, or
-interactively within an (i)Python shell.
+interactively within an iPython shell.
 
 Installation
 ------------
