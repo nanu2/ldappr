@@ -47,8 +47,7 @@ Then, get one or more objects to manipulate.
 Do stuff
 --------
 
-| Once you got an object, you can easily manipulate it. All changes will
-| immediately reflect in your LDAP repository.
+Once you got an object, you can easily manipulate it. All changes will immediately reflect in your LDAP repository.
 
 .. code:: python
 
