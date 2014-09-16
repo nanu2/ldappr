@@ -23,9 +23,9 @@ class LdapprObject(object):
         pretty_string = '{attr:{width}} : {value}\n'.format(
                 attr='dn', width=col_width, value=self.dn)
         for key, value in self.attrs.iteritems():
+            if len(str(value[0])) > 80:  # hack to 'detect' binary attrs
+                value = ['binary']
             for single_value in value:
-                if len(str(value)) > 100:  # hack to 'detect' binary attrs
-                    single_value = 'binary'
                 pretty_string += '{attr:{width}} : {value}\n'.format(
                     attr=self._case(key), width=col_width, value=single_value)
                 key = ''

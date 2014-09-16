@@ -5,7 +5,7 @@ with open('README.rst') as fh:
 
 setup(
     name='ldappr',
-    version='0.1.2',
+    version='0.1.4',
     packages=['ldappr', 'ldappr.test'],
     url='https://github.com/nanu2/ldappr',
     license='ICS',

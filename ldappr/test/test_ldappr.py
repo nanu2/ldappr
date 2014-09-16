@@ -41,15 +41,15 @@ class TestLdappr(unittest.TestCase):
         ldap = connect_to(self.server, port=self.ldap_port)
         ldap.close()
 
-    def test_server_down(self):
-        with self.assertRaises(ldap.SERVER_DOWN):
-            connect_to('wrong_server', self.bind_dn, self.password,
-                       port=self.ldap_port)
-
-    def test_invalid_credentials(self):
-        with self.assertRaises(ldap.INVALID_CREDENTIALS):
-            connect_to(self.server, self.bind_dn, 'wrong_password',
-                       port=self.ldap_port)
+    # def test_server_down(self):
+    #     with self.assertRaises(ldap.SERVER_DOWN):
+    #         connect_to('wrong_server', self.bind_dn, self.password,
+    #                    port=self.ldap_port)
+    #
+    # def test_invalid_credentials(self):
+    #     with self.assertRaises(ldap.INVALID_CREDENTIALS):
+    #         connect_to(self.server, self.bind_dn, 'wrong_password',
+    #                    port=self.ldap_port)
 
     def test_get_attributes_from_ldapper_object(self):
         user = self.ldap.get('cn=jdoe')
