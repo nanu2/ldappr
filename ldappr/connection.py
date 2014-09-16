@@ -15,13 +15,12 @@ class Connection(object):
                 ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT,
                                 ldap.OPT_X_TLS_NEVER)
             self.conn = ldap.initialize(self.ldap_url)
-        except ldap.LDAPError:
+        except:
             raise
 
     def search(self, search_filter):
         # TODO: use the escape_filter_chars() and filter_format() functions
         """Get list of objects that match the search_filter
-
         :param search_filter: filter to find the objects
         :return: list of LdapperObjects
         """
@@ -30,13 +29,15 @@ class Connection(object):
         return [LdapprObject(item, self.conn) for item in result]
 
     def get(self, search_filter):
-        """Get first object found (we use sizelimit=1 for speed)
+        """Get first object found
 
         :param search_filter: filter to find the object
         :return: LdapprObject or None
         """
-        result = self.conn.search_ext_s(self.search_base, ldap.SCOPE_SUBTREE,
-                                        search_filter, sizelimit=1)
+        # TODO: use sizelimit=1 with proper exception handling
+        result = self.conn.search_ext_s(self.search_base,
+                                        ldap.SCOPE_SUBTREE,
+                                        search_filter, sizelimit=0)
         return LdapprObject(result[0], self.conn) if result else None
 
     def get_by_dn(self, dn):
@@ -112,22 +113,6 @@ class AuthConnection(Connection):
 
     def delete_value(self, dn, attr, value):
         self.conn.modify_s(dn, [(ldap.MOD_DELETE, attr, value)])
-
-    def verify_password(self, dn, password):
-        # TODO: verify password
-        pass
-
-    def change_password(self, dn, old_pw, new_pw):
-        # TODO: change password
-        pass
-
-    def set_password(self, dn, password):
-        # TODO: set password (is this even possible?)
-        pass
-
-    def get_schema(self):
-        # TODO: get schema as ldif or sch
-        pass
 
     def delete(self, dn):
         self.conn.delete_s(dn)
