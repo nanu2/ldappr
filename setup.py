@@ -1,13 +1,12 @@
 from distutils.core import setup
 
-with open('README.md') as fh:
+with open('README.rst') as fh:
     long_description = fh.read()
 
 setup(
     name='ldappr',
-    version='0.1',
+    version='0.1.2',
     packages=['ldappr', 'ldappr.test'],
-    install_requires=['python-ldap'],
     url='https://github.com/nanu2/ldappr',
     license='ICS',
     author='Mike Helderman',
