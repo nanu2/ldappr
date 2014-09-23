@@ -2,6 +2,17 @@ import ldap
 import ldif
 from ldap.cidict import cidict
 from StringIO import StringIO
+from string import lower
+
+
+class CustomCidict(cidict):
+    def __getitem__(self, key):
+        """Override of the __getitem__ method to return an empty list if a key
+        does not exist (instead of raising an exception)
+        """
+        if lower(key) in self.data:
+            return self.data[lower(key)]
+        return []
 
 
 class LdapprObject(object):
@@ -14,14 +25,14 @@ class LdapprObject(object):
         existing connection.
         """
         (self.dn, self.attributes) = result
-        self.attrs = cidict(self.attributes)
+        self.attrs = CustomCidict(self.attributes)
         self.conn = conn
 
     def __str__(self):
         """Pretty prints all attributes with values."""
         col_width = max(len(key) for key in self.attrs.keys())
         pretty_string = '{attr:{width}} : {value}\n'.format(
-                attr='dn', width=col_width, value=self.dn)
+            attr='dn', width=col_width, value=self.dn)
         for key, value in self.attrs.iteritems():
             if len(str(value[0])) > 80:  # hack to 'detect' binary attrs
                 value = ['binary']

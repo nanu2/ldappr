@@ -22,7 +22,7 @@ class Connection(object):
         # TODO: use the escape_filter_chars() and filter_format() functions
         """Get list of objects that match the search_filter
         :param search_filter: filter to find the objects
-        :return: list of LdapperObjects
+        :return: list of LdapperObjects (or empty list)
         """
         result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
                                     search_filter)

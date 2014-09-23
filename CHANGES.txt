@@ -1,5 +1,0 @@
-0.1   - initial version
-0.1.1 - fixed pretty print of binary attribute
-      - fixed ldap.get sizelimit=1 exception for now
-      - added try catch to api
-0.1.2 - README.md to README.rst
