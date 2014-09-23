@@ -21,6 +21,7 @@ class Connection(object):
 
     def search(self, search_filter):
         """Get list of objects that match the search_filter
+
         :param search_filter: filter to find the objects
         :return: list of LdapperObjects (or empty list)
         """
@@ -82,6 +83,15 @@ class Connection(object):
         """
         result = self.get_values(dn, attr)
         return result[0]
+
+    def verify_password(self, dn, password):
+        try:
+            test_conn = ldap.initialize(self.ldap_url)
+            test_conn.simple_bind_s(dn, password)
+            test_conn.unbind_s()
+            return True
+        except ldap.LDAPError:
+            return False
 
     def close(self):
         self.conn.unbind_s()

@@ -122,5 +122,11 @@ sn: Doe
         user = self.ldap.get_by_dn(self.new_dn)
         self.assertEqual(user.attrs['mobile'], ['9876543210'])
 
+    def test_verify_password(self):
+        self.assertEqual(self.ldap.verify_password(self.bind_dn,
+                                                   self.password), True)
+        self.assertEqual(self.ldap.verify_password(self.bind_dn,
+                                                   'wrong_password'), False)
+
 if __name__ == '__main__':
     unittest.main()
