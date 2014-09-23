@@ -5,9 +5,11 @@ Changelog
 +++++
 
 **Improvements**
+
 - Added verify_password(dn, password) method
 
 **Bugfixes**
+
 - Added escape_filter_chars() to filter (sanitize) the filter
 - Override of cidicts __getitem__ so that user.attrs['nonexistent'] won't raise an exception, but instead returns an empty list
 
@@ -25,6 +27,7 @@ Changelog
 +++++
 
 **Bugfixes**
+
 - Fixed pretty print of binary attribute
 - Fixed ldap.get sizelimit=1 exception for now (come back to this later)
 - Added try catch to api
