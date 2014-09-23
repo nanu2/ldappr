@@ -1,4 +1,5 @@
 import ldap
+import ldap.filter
 from ldapprobject import LdapprObject
 
 
@@ -19,11 +20,11 @@ class Connection(object):
             raise
 
     def search(self, search_filter):
-        # TODO: use the escape_filter_chars() and filter_format() functions
         """Get list of objects that match the search_filter
         :param search_filter: filter to find the objects
         :return: list of LdapperObjects (or empty list)
         """
+        search_filter = ldap.filter.escape_filter_chars(search_filter)
         result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
                                     search_filter)
         return [LdapprObject(item, self.conn) for item in result]
@@ -35,6 +36,7 @@ class Connection(object):
         :return: LdapprObject or None
         """
         # TODO: use sizelimit=1 with proper exception handling
+        search_filter = ldap.filter.escape_filter_chars(search_filter)
         result = self.conn.search_ext_s(self.search_base,
                                         ldap.SCOPE_SUBTREE,
                                         search_filter, sizelimit=0)
@@ -55,6 +57,7 @@ class Connection(object):
         :param search_filter: filter to find the dn's
         :return: list of dn's
         """
+        search_filter = ldap.filter.escape_filter_chars(search_filter)
         result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
                                     search_filter)
         return [dn for (dn, item) in result]

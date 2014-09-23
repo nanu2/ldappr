@@ -41,12 +41,12 @@ class TestLdappr(unittest.TestCase):
         ldap = connect_to(self.server, port=self.ldap_port)
         ldap.close()
 
-    def test_get_attributes_from_ldapper_object(self):
+    def test_get_attributes_from_ldappr_object(self):
         user = self.ldap.get('cn=jdoe')
         self.assertEqual(user.attrs['givenname'], ['John'])
         self.assertEqual(user.attrs['gIvEnNaMe'], ['John'])
 
-    def test_get_nonexisting_attribute_ldapper_object(self):
+    def test_get_nonexisting_attribute_from_ldappr_object(self):
         user = self.ldap.get('cn=jdoe')
         self.assertEqual(user.attrs['nonexisting'], [])
 
