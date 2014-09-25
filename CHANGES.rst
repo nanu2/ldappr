@@ -6,15 +6,13 @@ Changelog
 
 **Improvements**
 
+- Added type() method to determine type of Directory (e.g. eDirectory, Active Directory): will be used later for type specific subclasses
 - Added verify_password(dn, password) method
-
-**Bugfixes**
-
 - Added escape_filter_chars() to filter (sanitize) the filter
 - Override of cidicts __getitem__ so that user.attrs['nonexistent'] won't raise an exception, but instead returns an empty list
 
-0.1.3 and 0.1.4
-+++++++++++++++
+0.1.3 and 0.1.4 (2014-09-16)
+++++++++++++++++++++++++++++
 
 - Wrestling with pypi (needs a new version number even if you've made a mistake by uploading rubbish)
 

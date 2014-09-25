@@ -9,7 +9,7 @@ class Connection(object):
         self.search_base = search_base
         if port == '':
             port = 389 if protocol == 'ldap' else 636
-        self.ldap_url = '%s://%s:%s' % (protocol, server, str(port))
+        self.ldap_url = '{}://{}:{}'.format(protocol, server, str(port))
         try:
             ldap.set_option(ldap.OPT_REFERRALS, 0)
             if not verify:
@@ -18,6 +18,21 @@ class Connection(object):
             self.conn = ldap.initialize(self.ldap_url)
         except:
             raise
+
+    def type(self):
+        result = self.conn.search_s('', ldap.SCOPE_BASE,
+                                    attrlist=['objectClass', 'vendorName',
+                                              'supportedCapabilities'])
+        rootDSE = LdapprObject(result[0], self.conn)
+        if rootDSE.attrs['vendorName'] == ['Novell, Inc.']:
+            return 'eDirectory'
+        if '1.2.840.113556.1.4.800' in rootDSE.attrs['supportedCapabilities']:
+            return 'Active Directory'
+        if rootDSE.attrs['vendorName'] == ['Apache Software Foundation']:
+            return 'Apache DS'
+        if 'OpenLDAProotDSE' in rootDSE.attrs['objectClass']:
+            return 'OpenLDAP'
+        return 'Unknown'
 
     def search(self, search_filter):
         """Get list of objects that match the search_filter
@@ -89,9 +104,9 @@ class Connection(object):
             test_conn = ldap.initialize(self.ldap_url)
             test_conn.simple_bind_s(dn, password)
             test_conn.unbind_s()
-            return True
         except ldap.LDAPError:
             return False
+        return True
 
     def close(self):
         self.conn.unbind_s()

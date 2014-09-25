@@ -1,5 +1,4 @@
 import unittest
-import ldap
 from ldappr import connect_to
 
 
