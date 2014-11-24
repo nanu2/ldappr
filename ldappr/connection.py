@@ -4,7 +4,7 @@ from ldapprobject import LdapprObject
 
 
 class Connection(object):
-    """Initiates connection with handy methods."""
+    """Initiates connection with handy methods"""
     def __init__(self, server, protocol='ldap', port='', verify=True,
                  search_base=''):
         self.search_base = search_base
