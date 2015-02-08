@@ -22,7 +22,7 @@ class LdapprObject(object):
     """
     def __init__(self, result, conn):
         """The class is initialized with a tuple: (dn, {attributes}), and the
-        existing connection.
+        existing connection
         """
         (self.dn, self.attributes) = result
         self.attrs = CustomCidict(self.attributes)
