@@ -1,6 +1,7 @@
 import ldap
 import ldap.filter
 from .ldapprobject import LdapprObject
+from uuid import UUID
 
 
 class Connection(object):
@@ -44,7 +45,18 @@ class Connection(object):
         search_filter = ldap.filter.escape_filter_chars(search_filter)
         result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
                                     search_filter)
-        return [LdapprObject(item, self.conn) for item in result]
+        return [LdapprObject(item, self.conn) for item in result if item[0] != None ]
+    def search_by_guid(self, guid):
+        """Get list of objects that match the search_filter
+
+        :param search_filter: filter to find the objects
+        :return: list of LdapperObjects (or empty list)
+        """
+        u = UUID(guid)
+        search_filter = '(objectguid=%s)' % ''.join(['\\%s' % u.hex[i:i+2] for i in range(0, len(u.hex), 2)])
+        result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
+                                    search_filter)
+        return [LdapprObject(item, self.conn) for item in result if item[0] != None ]
 
     def get(self, search_filter):
         """Get first object found

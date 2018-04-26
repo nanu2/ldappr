@@ -2,7 +2,7 @@ import ldap
 import ldif
 from ldap.cidict import cidict
 from io import StringIO
-
+from uuid import UUID
 
 class CustomCidict(cidict):
     def __getitem__(self, key):
@@ -19,12 +19,15 @@ class LdapprObject(object):
     The LdapprObject is used to handle search results from the Connection
     class. It's a representation of a single object in the LDAP Directory.
     """
+    guid = None
     def __init__(self, result, conn):
         """The class is initialized with a tuple: (dn, {attributes}), and the
         existing connection
         """
         (self.dn, self.attributes) = result
         self.attrs = CustomCidict(self.attributes)
+        if 'objectguid' in map(lambda x: x.lower(), self.attrs.keys()):
+            self.guid = str(UUID(bytes=self.attrs['objectguid'][0]))
         self.conn = conn
 
     def __str__(self):
