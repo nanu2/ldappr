@@ -47,9 +47,9 @@ class Connection(object):
                                     search_filter)
         return [LdapprObject(item, self.conn) for item in result if item[0] != None ]
     def search_by_guid(self, guid):
-        """Get list of objects that match the search_filter
+        """Get object that match the objectGuid
 
-        :param search_filter: filter to find the objects
+        :guid GUID like  XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
         :return: list of LdapperObjects (or empty list)
         """
         u = UUID(guid)
