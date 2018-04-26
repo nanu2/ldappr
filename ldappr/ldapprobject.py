@@ -2,7 +2,6 @@ import ldap
 import ldif
 from ldap.cidict import cidict
 from io import StringIO
-from string import lower
 
 
 class CustomCidict(cidict):
@@ -10,8 +9,8 @@ class CustomCidict(cidict):
         """Override of the __getitem__ method to return an empty list if a key
         does not exist (instead of raising an exception)
         """
-        if lower(key) in self.data:
-            return self.data[lower(key)]
+        if key.lower() in self.data:
+            return self.data[key.lower()]
         return []
 
 
