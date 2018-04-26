@@ -1,7 +1,7 @@
 import ldap
 import ldif
 from ldap.cidict import cidict
-from io import StringIO
+from StringIO import StringIO
 from string import lower
 
 
@@ -30,10 +30,10 @@ class LdapprObject(object):
 
     def __str__(self):
         """Pretty prints all attributes with values."""
-        col_width = max(len(key) for key in list(self.attrs.keys()))
+        col_width = max(len(key) for key in self.attrs.keys())
         pretty_string = '{attr:{width}} : {value}\n'.format(
             attr='dn', width=col_width, value=self.dn)
-        for key, value in self.attrs.items():
+        for key, value in self.attrs.iteritems():
             if len(str(value[0])) > 80:  # hack to 'detect' binary attrs
                 value = ['binary']
             for single_value in value:
@@ -50,8 +50,8 @@ class LdapprObject(object):
         :return: attr in proper case
         """
         try:
-            index = [x.lower() for x in list(self.attrs.keys())].index(attr.lower())
-            return list(self.attrs.keys())[index]
+            index = [x.lower() for x in self.attrs.keys()].index(attr.lower())
+            return self.attrs.keys()[index]
         except:
             return attr
 

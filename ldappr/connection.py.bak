@@ -1,6 +1,6 @@
 import ldap
 import ldap.filter
-from .ldapprobject import LdapprObject
+from ldapprobject import LdapprObject
 
 
 class Connection(object):
