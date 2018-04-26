@@ -26,7 +26,7 @@ class LdapprObject(object):
         """
         (self.dn, self.attributes) = result
         self.attrs = CustomCidict(self.attributes)
-        if 'objectguid' in map(lambda x: x.lower(), self.attrs.keys()):
+        if 'objectguid' in [x.lower() for x in list(self.attrs.keys())]:
             self.guid = str(UUID(bytes=self.attrs['objectguid'][0]))
         self.conn = conn
 
@@ -35,7 +35,7 @@ class LdapprObject(object):
         col_width = max(len(key) for key in list(self.attrs.keys()))
         pretty_string = '{attr:{width}} : {value}\n'.format(
             attr='dn', width=col_width, value=self.dn)
-        for key, value in self.attrs.items():
+        for key, value in list(self.attrs.items()):
             if len(str(value[0])) > 80:  # hack to 'detect' binary attrs
                 value = ['binary']
             for single_value in value:
