@@ -89,7 +89,7 @@ class Connection(object):
         search_filter = ldap.filter.escape_filter_chars(search_filter)
         result = self.conn.search_s(self.search_base, ldap.SCOPE_SUBTREE,
                                     search_filter)
-        return [dn for (dn, item) in result]
+        return [dn for (dn, item) in result if item[0] != None]
 
     def get_values(self, dn, attr):
         """Get list of values of given attribute for dn
