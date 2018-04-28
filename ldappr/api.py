@@ -1,6 +1,6 @@
 import sys
 import ldap
-from connection import Connection, AuthConnection
+from .connection import Connection, AuthConnection
 
 
 def connect_to(server, *args, **kwargs):
@@ -9,5 +9,5 @@ def connect_to(server, *args, **kwargs):
             return AuthConnection(server, *args, **kwargs)
         return Connection(server, **kwargs)
     except Exception as e:
-        print str(e)
+        print(str(e))
 

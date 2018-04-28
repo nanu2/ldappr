@@ -1,17 +1,16 @@
 import ldap
 import ldif
 from ldap.cidict import cidict
-from StringIO import StringIO
-from string import lower
-
+from io import StringIO
+from uuid import UUID
 
 class CustomCidict(cidict):
     def __getitem__(self, key):
         """Override of the __getitem__ method to return an empty list if a key
         does not exist (instead of raising an exception)
         """
-        if lower(key) in self.data:
-            return self.data[lower(key)]
+        if key.lower() in self.data:
+            return self.data[key.lower()]
         return []
 
 
@@ -20,20 +19,23 @@ class LdapprObject(object):
     The LdapprObject is used to handle search results from the Connection
     class. It's a representation of a single object in the LDAP Directory.
     """
+    guid = None
     def __init__(self, result, conn):
         """The class is initialized with a tuple: (dn, {attributes}), and the
         existing connection
         """
         (self.dn, self.attributes) = result
         self.attrs = CustomCidict(self.attributes)
+        if 'objectguid' in [x.lower() for x in list(self.attrs.keys())]:
+            self.guid = str(UUID(bytes=self.attrs['objectguid'][0]))
         self.conn = conn
 
     def __str__(self):
         """Pretty prints all attributes with values."""
-        col_width = max(len(key) for key in self.attrs.keys())
+        col_width = max(len(key) for key in list(self.attrs.keys()))
         pretty_string = '{attr:{width}} : {value}\n'.format(
             attr='dn', width=col_width, value=self.dn)
-        for key, value in self.attrs.iteritems():
+        for key, value in list(self.attrs.items()):
             if len(str(value[0])) > 80:  # hack to 'detect' binary attrs
                 value = ['binary']
             for single_value in value:
@@ -50,8 +52,8 @@ class LdapprObject(object):
         :return: attr in proper case
         """
         try:
-            index = [x.lower() for x in self.attrs.keys()].index(attr.lower())
-            return self.attrs.keys()[index]
+            index = [x.lower() for x in list(self.attrs.keys())].index(attr.lower())
+            return list(self.attrs.keys())[index]
         except:
             return attr
 
